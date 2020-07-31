@@ -1,17 +1,152 @@
 'use strict';
 
+/*************Задание  Действие с эл-тами страницы  ******************/
 
 
 
 
 
+/*************  Действие с эл-тами страницы  ******************/
+/*const box = document.getElementById('box'),
+	btns = document.getElementsByTagName('button'),
+	circles = document.getElementsByClassName('circle'),
+	wrapper = document.querySelector('.wrapper'),
+	hearts = document.querySelectorAll('.heart'), //!!		forEach
+	oneHeart = document.querySelector('.heart');
+
+	//const hearts = wrapper.querySelectorAll('.heart'); //!! т.к. hearts внутри  div-а с классом "wrapper"
+
+box.style.backgroundColor = 'blue';
+box.style.width = '500px';
+box.style.cssText = 'background-color:blue; width:500px';
+box.style.cssText = `background - color: blue;
+width: ${num}px`;
+
+btns[1].style.borderRadius = '100%';
+circles[0].style.backgroundColor = 'red';
+
+for (let i = 0; i < hearts.length; i++) {
+	hearts[i].style.backgroundColor = 'blue';
+}
+
+heart.forEach(item => {
+	item.style.backgroundColor = 'blue';
+});
+
+const text = document.createTextNode('Тут был я'); // редко использ.
+
+const div = document.createElement('div'); // этот div есть только в JS
+div.classList.add('class-black');
+document.body.append(div); //вставили div в конец body
+document.querySelector('.wrapper').append(div); //вставили div в конец div.wrapper
+
+wrapper.append(div);
+wrapper.appendChild(div);
+
+wrapper.prepend(div);
+
+hearts[0].before(div); //перед первым hearts появился div
+wrapper.insertBefore(div, hearts[0]); //перед первым hearts появился div
+
+hearts[0].after(div); //после первого hearts появился div
+
+circles[0].remove; //  Удален первый  circles из документа
+wrapper.removeChild(hearts[0]);
+
+hearts[0].replaceWith(circles[0]); // замена hearts на circles
+wrapper.replaceChild(circles[0], hearts[0]);*/
+
+
+//const div = document.getElementsByTagName('div');
+//const div = document.querySelector('div');
+//console.log(div);
+
+//div.textContent = 'HeLLo';
+//div.innerHTML = "<h1>Hello World</h1>";
+
+//div.insertAdjacentHTML("beforebegin", '<h2> Hellooo </h2>');
+//div.insertAdjacentHTML("afterbegin", '<h2> Hellooo </h2>');
+//div.insertAdjacentHTML("beforeend", '<h2> Hellooo </h2>');
+//div.insertAdjacentHTML("afterend", '<h2> Hellooo </h2>'); //!!
 
 
 
 
+/*************  Получение эл-тов страницы  ******************/
+/*const box = document.getElementById('box_id');
+
+const btns = document.getElementsByTagName('button'); //псевдо--массив
+const btns = document.getElementsByTagName('button')[1];
+
+const circles = document.getElementsByClassName('circle');
+
+const hearts = document.querySelectorAll('.heart'); //!!		forEach
+hearts.forEach(item => {
+	console.log(item);
+})
+
+const oneHeart = document.querySelector('.heart'); //первый элемент с .heart
+const oneHeart = document.querySelector('p');
+console.log(oneHeart);*/
 
 
+/* ************  Динамическая типизация  *********************** */
+/*
+// To String
+console.log(typeof (String(null)));
+console.log(typeof (String(4)));
 
+//Конкатенация
+console.log(typeof (5 + ''));
+console.log(typeof (null + ''));
+
+const num = 5;
+console.log("https://vk.com/catalog/" + num);
+
+const fontSize = 26 + 'px';
+
+// To Number
+//  1)
+console.log(typeof (Number('4')));
+
+//   2)   Унарный плюс
+console.log(typeof (+'4'));
+
+// 3)
+console.log(typeof (parseInt('15px', 10)));
+
+let answ = +prompt('Hello', '');
+
+// To boolean
+//  0, '', null, undefined, NaN;  //!! FALSE
+//  1)
+let switcher = null;
+if (switcher) {
+	console.log('Working..')
+}
+
+
+switcher = 1;
+if (switcher) {
+	console.log('Working..good')
+}
+//  2)
+console.log(typeof (Boolean('4')));
+//  3)
+console.log(typeof (!!'44444')); //!! редкость
+
+*/
+
+
+/* *********************************** */
+
+/*
+const arr = [2, 13, 26, 8, 10],
+	sorted = arr.sort(compareNum);
+
+function compareNum(a, b) { //						!!
+	return a - b;
+};*/
 
 /* ************        ООП           *********************** */
 /*
@@ -363,80 +498,6 @@ function openSlider(funcImg) {
 
 
 
-/********				****	TOP	****			***********/
-
-
-
-
-
-
-let personalMovieDB = {
-	count: 0,
-	movies: {},
-	actors: {},
-	genres: [],
-	privat: false,
-
-	start: function () {
-		personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
-		while (personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
-			personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
-		}
-	},
-	rememberMyFilms: function () {
-		for (let i = 0; i < 2; i++) {
-			const a = prompt('Один из последних просмотренных фильмов?', ''),
-				b = prompt('На сколько оцените его?', '');
-
-			if (a != null && b != null && a != '' && b != '' && a.length < 10) {
-				personalMovieDB.movies[a] = b;
-				console.log('done');
-			} else {
-				console.log('eror');
-				i--;
-			}
-		}
-	},
-	detectPersonalLevel: function () {
-		if (personalMovieDB.count < 10) {
-			console.log('Просмотрено довольно мало фильмов!');
-		} else if (personalMovieDB.count >= 10 && personalMovieDB.count <= 30) {
-			console.log('Вы классический зритель!');
-		} else if (personalMovieDB.count > 30) {
-			console.log('Вы киноман!');
-		} else {
-			console.log('Произошла ошибка!');
-		}
-	},
-	showMyDB: function (hidden) {
-		if (!hidden) {
-			console.log(personalMovieDB);
-		}
-	},
-	writeYourGenres: function () {
-		for (let i = 1; i <= 3; i++) {
-			personalMovieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i++}?`, '');
-			personalMovieDB.genres[i - 1] = genre;
-		}
-	},
-	toggleVisibleMyDB: function () {
-		if (personalMovieDB.privat) {
-			personalMovieDB.privat = false;
-		} else {
-			personalMovieDB.privat = true;
-		}
-	}
-
-};
-
-//personalMovieDB.showMyDB(personalMovieDB.privat);
-
-//console.log(personalMovieDB.toggleVisibleMyDB());
-
-//console.log();
-//personalMovieDB.showMyDB(personalMovieDB.toggleVisibleMyDB);
-//personalMovieDB.showMyDB(personalMovieDB.privat);
-
 
 
 
@@ -537,3 +598,96 @@ writeYourGenres();*/
 	}
 }
 writeYourGenres();*/
+
+
+
+
+
+
+/********				****	TOP	****			***********/
+/*
+let personalMovieDB = {
+	count: 0,
+	movies: {},
+	actors: {},
+	genres: [],
+	privat: false,
+
+	start: function () {
+		personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+		while (personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
+			personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+		}
+	},
+	rememberMyFilms: function () {
+		for (let i = 0; i < 2; i++) {
+			const a = prompt('Один из последних просмотренных фильмов?', ''),
+				b = prompt('На сколько оцените его?', '');
+
+			if (a != null && b != null && a != '' && b != '' && a.length < 10) {
+				personalMovieDB.movies[a] = b;
+				console.log('done');
+			} else {
+				console.log('eror');
+				i--;
+			}
+		}
+	},
+	detectPersonalLevel: function () {
+		if (personalMovieDB.count < 10) {
+			console.log('Просмотрено довольно мало фильмов!');
+		} else if (personalMovieDB.count >= 10 && personalMovieDB.count <= 30) {
+			console.log('Вы классический зритель!');
+		} else if (personalMovieDB.count > 30) {
+			console.log('Вы киноман!');
+		} else {
+			console.log('Произошла ошибка!');
+		}
+	},
+	showMyDB: function (hidden) {
+		if (!hidden) {
+			console.log(personalMovieDB);
+		}
+	},
+	writeYourGenres: function () {
+		for (let i = 1; i < 2; i++) {
+			//for (let i = 1; i <= 3; i++) {
+			//let genre = prompt(`Ваш любимый жанр под номером ${i}?`, '');
+			//if (genre === '' || genre == null) {
+			//	console.log('Вы ввели некорректные данные');
+			//	i--;
+			//} else {
+			//	personalMovieDB.genres[i - 1] = genre;
+			//}
+
+			let genre = prompt(`Введите ваши любимые жанры через запятую`).toLowerCase();
+
+			if (genre === '' || genre == null) {
+				console.log('Вы ввели некорректные данные');
+				i--;
+			} else {
+				personalMovieDB.genres = genre.split(', ');
+				personalMovieDB.genres.sort();
+			}
+
+		}
+		personalMovieDB.genres.forEach((item, i) => {
+			console.log(`Любимый жанр №${i+1} это ${item}`);
+		});
+
+	},
+	toggleVisibleMyDB: function () {
+		if (personalMovieDB.privat) {
+			personalMovieDB.privat = false;
+		} else {
+			personalMovieDB.privat = true;
+		}
+	}
+
+}
+
+personalMovieDB.writeYourGenres();
+console.log(personalMovieDB);
+
+//personalMovieDB.showMyDB(personalMovieDB.privat);
+//console.log(personalMovieDB.toggleVisibleMyDB());*/

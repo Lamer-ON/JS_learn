@@ -1,8 +1,248 @@
 'use strict';
 
-/*************Задание  Действие с эл-тами страницы  ******************/
 
 
+
+//!! 33 Практика._События на странице_____***
+
+
+let personalMovieDB = {
+	count: 0,
+	movies: {},
+	actors: {},
+	genres: [],
+	privat: false,
+
+	start: function () {
+		personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+		while (personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
+			personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+		}
+	},
+	rememberMyFilms: function () {
+		for (let i = 0; i < 2; i++) {
+			const a = prompt('Один из последних просмотренных фильмов?', ''),
+				b = prompt('На сколько оцените его?', '');
+
+			if (a != null && b != null && a != '' && b != '' && a.length < 10) {
+				personalMovieDB.movies[a] = b;
+				console.log('done');
+			} else {
+				console.log('eror');
+				i--;
+			}
+		}
+	},
+	detectPersonalLevel: function () {
+		if (personalMovieDB.count < 10) {
+			console.log('Просмотрено довольно мало фильмов!');
+		} else if (personalMovieDB.count >= 10 && personalMovieDB.count <= 30) {
+			console.log('Вы классический зритель!');
+		} else if (personalMovieDB.count > 30) {
+			console.log('Вы киноман!');
+		} else {
+			console.log('Произошла ошибка!');
+		}
+	},
+	showMyDB: function (hidden) {
+		if (!hidden) {
+			console.log(personalMovieDB);
+		}
+	},
+	writeYourGenres: function () {
+		for (let i = 1; i < 2; i++) {
+			//for (let i = 1; i <= 3; i++) {
+			//let genre = prompt(`Ваш любимый жанр под номером ${i}?`, '');
+			//if (genre === '' || genre == null) {
+			//	console.log('Вы ввели некорректные данные');
+			//	i--;
+			//} else {
+			//	personalMovieDB.genres[i - 1] = genre;
+			//}
+
+			let genre = prompt(`Введите ваши любимые жанры через запятую`).toLowerCase();
+
+			if (genre === '' || genre == null) {
+				console.log('Вы ввели некорректные данные');
+				i--;
+			} else {
+				personalMovieDB.genres = genre.split(', ');
+				personalMovieDB.genres.sort();
+			}
+
+		}
+		personalMovieDB.genres.forEach((item, i) => {
+			console.log(`Любимый жанр №${i+1} это ${item}`);
+		});
+
+	},
+	toggleVisibleMyDB: function () {
+		if (personalMovieDB.privat) {
+			personalMovieDB.privat = false;
+		} else {
+			personalMovieDB.privat = true;
+		}
+	}
+
+}
+
+let input = prompt('Добавьте свой фильм');
+personalMovieDB.movies[0] = input;
+console.log(personalMovieDB);
+
+//personalMovieDB.writeYourGenres();
+//console.log(personalMovieDB);
+
+//personalMovieDB.showMyDB(personalMovieDB.privat);
+//console.log(personalMovieDB.toggleVisibleMyDB());
+
+
+
+//!! 32 Навигация по DOM-эл-там data-атрибуты		****
+document.addEventListener('DOMContentLoaded', () => {});
+
+/*console.log(document.head);
+console.log(document.documentElement);
+console.log(document.body.childNodes);
+console.log(document.body.firstChild); // Node
+console.log(document.body.firstElementChild); // элемент
+console.log(document.body.lastChild);
+console.log(document.body.lastElementChild);
+
+
+document.querySelector('#current').parentNode.parentNode; // родитель.родитель
+document.querySelector('#current').parentNode;
+document.querySelector('#current').parentElement; //!! Получаем эл-т
+
+document.querySelector('[data-current="3"]').previousSibling;
+
+document.querySelector('[data-current="3"]').nextElementSibling; //!! Получаем эл-т а не Node
+document.querySelector('[data-current="3"]').previousSibling;
+
+for (let node of document.body.childNodes) {
+	if (node.nodeName == '#text') { //!!		.nodeName 
+		continue;
+	}
+	console.log(node);
+}*/
+
+
+
+
+/************* События и их обработчики ******************/
+/*const overlay = document.querySelector('.overlay'),
+	btns = document.querySelectorAll('button'),
+	btn = overlay.querySelector('button');
+
+//btn.onclick = function () {
+//	alert('Click');
+//};  //!!		Не вариант
+
+//btn.addEventListener('click', () => {
+//	alert('Click');
+//});
+
+//btn.addEventListener('click', () => {
+//	alert('Second click');
+//});
+
+//btn.addEventListener('mouseenter', () => {
+//	console.log('Hover');
+//});
+
+//btn.addEventListener('mouseenter', (event) => {
+//console.log(event);
+//	console.log(event.target); //!! доступ к эл-ту события
+//	event.target.remove();
+//console.log('Hover');
+//}); 
+
+//let i = 0;
+//const deleteElement = (event) => {
+//	console.log(event.target);
+//	i++;
+//	if (i == 1) {
+//		btn.removeEventListener('click', deleteElement);
+//	}
+//};
+//btn.addEventListener('click', deleteElement);
+
+const deleteElement = (event) => {
+	console.log(event.currentTarget);
+	console.log(event.type);
+	//!! Всплытие событий. Обработчик сначала срабатывает на самом вложеном, затем на родителе и выше
+};
+//btn.addEventListener('click', deleteElement);
+//overlay.addEventListener('click', deleteElement);
+
+
+//btns.forEach(item => { //!! item это каждая кнопка внутри btns
+//	item.addEventListener('click', deleteElement);
+//!! {once:true}  срабатывани етолько 1 раз !!!!
+//	item.addEventListener('click', deleteElement, {once:true});
+//});
+//!! 2-й вариант с   for..of
+//for (let item of btns) {
+//	item.addEventListener('click', deleteElement);
+//};
+
+
+const link = document.querySelector('a');
+link.addEventListener('click', (event) => {
+	event.preventDefault(); //!! Отмена стандартного поведения
+	console.log(event.target);
+});*/
+
+
+
+/**********  Задание Действие с эл-тами страницы  ****/
+/*
+const movieDB = {
+	movies: [
+		"Логан",
+		"Лига справедливости",
+		"Ла-ла лэнд",
+		"Одержимость",
+		"Скотт Пилигрим против..."
+	]
+};
+
+const adv = document.querySelectorAll('.promo__adv img'),
+	poster = document.querySelector('.promo__bg'),
+	genre = poster.querySelector('.promo__genre'),
+	movieList = document.querySelector('.promo__interactive-list');
+
+
+adv.forEach(item => {
+	item.remove();
+});
+
+//adv.forEach(function (item) {
+//	item.remove();
+//});
+
+genre.textContent = 'драма';
+poster.style.backgroundImage = "url('img/bg.jpg')";
+//poster.style.background = "url(img/bg.jpg)";
+
+movieList.innerHTML = ''; //!!
+
+movieDB.movies.sort();
+
+movieDB.movies.forEach((film, i) => {
+	movieList.innerHTML += `
+	<li class="promo__interactive-item">${i+1} ${film}
+	<div class="delete"></div>
+   </li>
+	`
+});
+//console.log(poster.innerHTML); //!! получение информации о poster. Редко
+
+movielist = document.querySelectorAll('.promo__interactive-list');
+movielist.forEach(item => {
+	item.remove();
+});
+*/
 
 
 
@@ -14,13 +254,12 @@
 	hearts = document.querySelectorAll('.heart'), //!!		forEach
 	oneHeart = document.querySelector('.heart');
 
-	//const hearts = wrapper.querySelectorAll('.heart'); //!! т.к. hearts внутри  div-а с классом "wrapper"
+	//const hearts = wrapper.querySelectorAll('.heart'); //!! т.к. hearts внутри  div с классом "wrapper"
 
 box.style.backgroundColor = 'blue';
 box.style.width = '500px';
 box.style.cssText = 'background-color:blue; width:500px';
-box.style.cssText = `background - color: blue;
-width: ${num}px`;
+box.style.cssText = `background-color: blue; width: ${num}px`;//!!   cssText
 
 btns[1].style.borderRadius = '100%';
 circles[0].style.backgroundColor = 'red';
@@ -36,21 +275,22 @@ heart.forEach(item => {
 const text = document.createTextNode('Тут был я'); // редко использ.
 
 const div = document.createElement('div'); // этот div есть только в JS
-div.classList.add('class-black');
+div.classList.add('class-black');//!!---classList
+
 document.body.append(div); //вставили div в конец body
 document.querySelector('.wrapper').append(div); //вставили div в конец div.wrapper
 
 wrapper.append(div);
 wrapper.appendChild(div);
 
-wrapper.prepend(div);
+wrapper.prepend(div);//вставили div в начало div.wrapper
 
 hearts[0].before(div); //перед первым hearts появился div
 wrapper.insertBefore(div, hearts[0]); //перед первым hearts появился div
 
 hearts[0].after(div); //после первого hearts появился div
 
-circles[0].remove; //  Удален первый  circles из документа
+circles[0].remove(); //  Удален первый  circles из документа
 wrapper.removeChild(hearts[0]);
 
 hearts[0].replaceWith(circles[0]); // замена hearts на circles
@@ -62,11 +302,12 @@ wrapper.replaceChild(circles[0], hearts[0]);*/
 //console.log(div);
 
 //div.textContent = 'HeLLo';
-//div.innerHTML = "<h1>Hello World</h1>";
+//div.innerHTML = "<h1>Hello World</h1>"; //!!
 
 //div.insertAdjacentHTML("beforebegin", '<h2> Hellooo </h2>');
-//div.insertAdjacentHTML("afterbegin", '<h2> Hellooo </h2>');
 //div.insertAdjacentHTML("beforeend", '<h2> Hellooo </h2>');
+
+//div.insertAdjacentHTML("afterbegin", '<h2> Hellooo </h2>');
 //div.insertAdjacentHTML("afterend", '<h2> Hellooo </h2>'); //!!
 
 

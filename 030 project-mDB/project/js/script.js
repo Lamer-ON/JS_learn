@@ -1,0 +1,174 @@
+/* Задания на урок:
+
+1) Удалить все рекламные блоки со страницы (правая часть сайта)
+
+2) Изменить жанр фильма, поменять "комедия" на "драма"
+
+3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
+Реализовать только при помощи JS
+
+4) Список фильмов на странице сформировать на основании данных из этого JS файла.
+Отсортировать их по алфавиту 
+
+5) Добавить нумерацию выведенных фильмов */
+
+'use strict';
+
+document.addEventListener('DOMContentLoaded', () => {
+
+	const movieDB = {
+		movies: [
+			"Логан",
+			"Лига справедливости",
+			"Ла-ла лэнд",
+			"Одержимость",
+			"Скотт Пилигрим против..."
+		]
+	};
+
+	const adv = document.querySelectorAll('.promo__adv img'),
+		poster = document.querySelector('.promo__bg'),
+		genre = poster.querySelector('.promo__genre'),
+		movieList = document.querySelector('.promo__interactive-list'),
+		addForm = document.querySelector('form.add'),
+		addInput = addForm.querySelector('.adding__input'),
+		checkbox = addForm.querySelector('[type="checkbox"]');
+
+	//input = document.querySelector('.adding__input'),
+	//button = document.querySelector('button');
+
+
+	addForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+
+		let newFilm = addInput.value;
+		const favorite = checkbox.checked; //!!
+
+
+		if (newFilm) {
+
+			if (newFilm.length > 21) {
+				//newFilm = newFilm.slice(0, 22) + '...';
+				newFilm = `${newFilm.substring(0,22)}...`
+			}
+
+			if (favorite) {
+				console.log('Добавляем любимый фильм');
+			}
+			movieDB.movies.push(newFilm); //!!
+			sortArr(movieDB.movies);
+
+			createMovieList(movieDB.movies, movieList);
+		};
+
+		//addForm.reset();
+		event.target.reset();
+	});
+
+
+	const deleteAdv = (arr) => {
+		arr.forEach(item => {
+			item.remove();
+		});
+	};
+
+	const makeChanges = () => {
+		genre.textContent = 'драма';
+		poster.style.backgroundImage = "url('img/bg.jpg')";
+	};
+
+	const sortArr = (arr) => {
+		arr.sort();
+	};
+
+
+	function createMovieList(films, parent) {
+		parent.innerHTML = '';
+		sortArr(films);
+
+		films.forEach((film, i) => {
+			parent.innerHTML += `
+				<li class="promo__interactive-item">${i+1} ${film}
+				<div class="delete"></div>
+				</li>
+				`;
+		});
+
+		document.querySelectorAll('.delete').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				btn.parentElement.remove();
+				movieDB.movies.splice(i, 1);
+
+				createMovieList(films, parent);
+
+			});
+		});
+
+	};
+
+
+
+
+	deleteAdv(adv);
+	makeChanges();
+	createMovieList(movieDB.movies, movieList);
+	//sortArr(movieDB.movies);
+
+
+
+	//movieDB.movies[i].delete();
+	//console.log(movieDB.movies[i]);
+
+
+
+	//adv.forEach(item => {
+	//	item.remove();
+	//});
+
+	////adv.forEach(function (item) {
+	////	item.remove();
+	////});
+
+	//genre.textContent = 'драма';
+	//poster.style.backgroundImage = "url('img/bg.jpg')";
+	////poster.style.background = "url(img/bg.jpg)";
+
+	//movieList.innerHTML = ''; //!!
+
+
+	//movieDB.movies.sort();
+
+	//let addFilms = function () {
+	//	movieDB.movies.forEach((film, i) => {
+	//		movieList.innerHTML += `
+	//	<li class="promo__interactive-item">${i+1} ${film}
+	//	<div class="delete"></div>
+	//	</li>
+	//	`
+	//	});
+	//}
+	//addFilms();
+
+	//button.addEventListener('click', (event) => {
+	//	event.preventDefault();
+	//	movieDB.movies[movieDB.movies.length] = input.value;
+
+	//	movieList.innerHTML = '';
+
+	//	addFilms();
+
+
+	//});
+
+	//console.log(poster.innerHTML); //!! получение информации о poster. Редко
+
+	//movielist = document.querySelectorAll('.promo__interactive-list');
+	//movielist.forEach(item => {
+	//	item.remove();
+	//});
+
+
+
+
+
+});
